@@ -6,12 +6,17 @@ var express = require('express'),
 // and populate the req.body object
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    });
 
 /************
  * DATABASE *
  ************/
 
-// var db = require('./models');
+var db = require('./models');
 
 /**********
  * ROUTES *
@@ -39,14 +44,25 @@ app.get('/api', function api_index(req, res) {
   res.json({
     woops_i_has_forgot_to_document_all_my_endpoints: true, // CHANGE ME ;)
     message: "Welcome to my personal api! Here's what you need to know!",
-    documentation_url: "https://github.com/example-username/express_self_api/README.md", // CHANGE ME
-    base_url: "http://YOUR-APP-NAME.herokuapp.com", // CHANGE ME
+    documentation_url: "https://github.com/shindomino/express-personal-api", // CHANGE ME
+    base_url: "http://banana-pie-73094.herokuapp.com", // CHANGE ME
     endpoints: [
-      {method: "GET", path: "/api", description: "Describes all available endpoints"},
-      {method: "GET", path: "/api/profile", description: "Data about me"}, // CHANGE ME
-      {method: "POST", path: "/api/campsites", description: "E.g. Create a new campsite"} // CHANGE ME
+      {
+        method: "GET",
+        path: "/api",
+        description: "Look at my endpoints"
+      },
+      {method: "GET",
+      path: "/api/profile",
+      description: "Data about me"
+      },
+      {
+        method: "POST",
+        path: "/api/videoGames",
+        description: "My list of games"
+      }
     ]
-  })
+  });
 });
 
 /**********
